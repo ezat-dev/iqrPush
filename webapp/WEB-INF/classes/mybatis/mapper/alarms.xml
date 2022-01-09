@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="alarms">
+	
+	<select id="appAlarmDetailList" resultType="alarms" parameterType="alarms">
+		SELECT 
+		a_hogi, a_name,
+		LEFT(alarm_time,19) AS alarm_time,
+		LEFT(return_time,19) AS return_time
+		FROM tb_ae_push	
+		WHERE 1=1
+		<if test="a_hogi != '' and a_hogi != null">
+			AND a_hogi = #{a_hogi}
+		</if>
+		<if test="sdate != '' and sdate != null and edate != '' and edate != null">
+			AND LEFT(alarm_time,10) BETWEEN #{sdate} AND #{edate}
+		</if>		
+		ORDER BY alarm_time DESC
+	</select>
+	
+	
+	<select id="getAlarmDetailList" resultType="alarms" parameterType="alarms">
+		SELECT 
+		a_hogi, a_name,
+		LEFT(alarm_time,19) AS alarm_time,
+		LEFT(return_time,19) AS return_time
+		FROM tb_ae_push	
+		WHERE 1=1
+		<if test="a_hogi != '' and a_hogi != null">
+			AND a_hogi = #{a_hogi}
+		</if>
+		<if test="a_name != '' and a_name != null">
+			AND a_name = #{a_name}
+		</if>
+		<if test="sdate != '' and sdate != null and edate != '' and edate != null">
+			AND LEFT(alarm_time,10) BETWEEN #{sdate} AND #{edate}
+		</if>
+		ORDER BY alarm_time DESC
+	</select>
+	
+	<select id="getAlarmListSelectMname" parameterType="map" resultType="string">
+		SELECT DISTINCT a_hogi
+		FROM tb_ae_push
+		WHERE a_hogi IS NOT NULL
+		ORDER BY a_hogi
+	</select>
+	
+	<select id="getAlarmListSelectAname" parameterType="map" resultType="string">
+		SELECT DISTINCT a_name
+		FROM tb_ae_push
+		WHERE a_hogi IS NOT NULL
+		<if test="a_name != '' and a_name != null">
+			AND a_name = #{a_name}
+		</if>
+		ORDER BY a_hogi
+	</select>
+	
+	<select id="getAlarmRankingMonth" parameterType="map" resultType="alarms">
+		SELECT 
+		date1,
+		a_name,
+		COUNT(*) AS ccnt
+		FROM tb_ae_push
+		WHERE 1=1
+		<if test="a_hogi != '' and a_hogi != null">
+			AND a_hogi = #{a_hogi}
+		</if>
+		GROUP BY date1, a_name
+		HAVING date1 = #{date1}
+		ORDER BY ccnt DESC
+	</select>
+	
+	<select id="getAlarmRankingYear" parameterType="map" resultType="alarms">
+		SELECT 
+		year1,
+		a_name,
+		COUNT(*) AS ccnt
+		FROM tb_ae_push
+		WHERE 1=1
+		<if test="a_hogi != '' and a_hogi != null">
+			AND a_hogi = #{a_hogi}
+		</if>
+		GROUP BY year1, a_name
+		HAVING year1 = #{year1}
+		ORDER BY ccnt DESC
+	</select>
+
+	
+	<select id="getAlarmListSelectMonthMname" parameterType="map" resultType="string">
+		SELECT DISTINCT a_hogi
+		FROM (
+			SELECT *
+			FROM tb_ae_push
+			WHERE LEFT(alarm_time,7) = #{date1}
+			AND (a_hogi IS NOT NULL)
+		) AS aaa
+		ORDER BY a_hogi	
+	</select>
+
+	
+	<select id="getAlarmListSelectYearMname" parameterType="map" resultType="string">
+		SELECT DISTINCT a_hogi
+		FROM (
+			SELECT *
+			FROM tb_ae_push
+			WHERE LEFT(alarm_time,4) = #{year1}
+			AND (a_hogi IS NOT NULL)
+		) AS aaa
+		ORDER BY a_hogi	
+	</select>
+	
+	<!-- 시효로 2호기 -->
+	<select id="getAging2TokenList" resultType="string">
+		SELECT token_id
+		FROM tb_user
+		WHERE (token_id IS NOT NULL)
+		AND (yn = 'Y' AND aging2_yn = 'Y')
+		AND (push_yn = 'Y')
+	</select>
+	
+	<select id="getAging2AlarmList" resultType="alarms">
+		SELECT *
+		FROM tb_ae_push
+		WHERE a_hogi = '시효로 2호기'
+		AND push_chk = 'N'
+	</select>
+	
+	<update id="setAging2PushUpdate" parameterType="int">
+		UPDATE tb_ae_push SET push_chk = 'Y'
+		WHERE idx = #{value}
+	</update>
+	
+	<!-- 시효로 3호기 -->
+	<select id="getAging3TokenList" resultType="string">
+		SELECT token_id
+		FROM tb_user
+		WHERE (token_id IS NOT NULL)
+		AND (yn = 'Y' AND aging3_yn = 'Y')
+		AND (push_yn = 'Y')
+	</select>
+	
+	<select id="getAging3AlarmList" resultType="alarms">
+		SELECT *
+		FROM tb_ae_push
+		WHERE a_hogi = '시효로 3호기'
+		AND push_chk = 'N'
+	</select>	
+	
+	<update id="setAging3PushUpdate" parameterType="int">
+		UPDATE tb_ae_push SET push_chk = 'Y'
+		WHERE idx = #{value}
+	</update>
+	
+	
+	<!-- 시효로 4호기 -->
+	<select id="getAging4TokenList" resultType="string">
+		SELECT token_id
+		FROM tb_user
+		WHERE (token_id IS NOT NULL)
+		AND (yn = 'Y' AND aging4_yn = 'Y')
+		AND (push_yn = 'Y')
+	</select>
+	
+	<select id="getAging4AlarmList" resultType="alarms">
+		SELECT *
+		FROM tb_ae_push
+		WHERE a_hogi = '시효로 4호기'
+		AND push_chk = 'N'
+	</select>	
+	
+	<update id="setAging4PushUpdate" parameterType="int">
+		UPDATE tb_ae_push SET push_chk = 'Y'
+		WHERE idx = #{value}
+	</update>
+	
+	
+	
+	<!-- 용체화로 1호기 -->
+	<select id="getYong1TokenList" resultType="string">
+		SELECT token_id
+		FROM tb_user
+		WHERE (token_id IS NOT NULL)
+		AND (yn = 'Y' AND yong1_yn = 'Y')
+		AND (push_yn = 'Y')
+	</select>
+	
+	<select id="getYong1AlarmList" resultType="alarms">
+		SELECT *
+		FROM tb_ae_push
+		WHERE a_hogi = '용체화로 1호기'
+		AND push_chk = 'N'
+	</select>	
+	
+	<update id="setYong1PushUpdate" parameterType="int">
+		UPDATE tb_ae_push SET push_chk = 'Y'
+		WHERE idx = #{value}
+	</update>
+	
+	
+	<!-- 용체화로 2호기 -->
+	<select id="getYong2TokenList" resultType="string">
+		SELECT token_id
+		FROM tb_user
+		WHERE (token_id IS NOT NULL)
+		AND (yn = 'Y' AND yong2_yn = 'Y')
+		AND (push_yn = 'Y')
+	</select>
+	
+	<select id="getYong2AlarmList" resultType="alarms">
+		SELECT *
+		FROM tb_ae_push
+		WHERE a_hogi = '용체화로 2호기'
+		AND push_chk = 'N'
+	</select>	
+	
+	<update id="setYong2PushUpdate" parameterType="int">
+		UPDATE tb_ae_push SET push_chk = 'Y'
+		WHERE idx = #{value}
+	</update>
+	
+	
+	
+	<!-- 용체화로 3호기 -->
+	<select id="getYong3TokenList" resultType="string">
+		SELECT token_id
+		FROM tb_user
+		WHERE (token_id IS NOT NULL)
+		AND (yn = 'Y' AND yong3_yn = 'Y')
+		AND (push_yn = 'Y')
+	</select>
+	
+	<select id="getYong3AlarmList" resultType="alarms">
+		SELECT *
+		FROM tb_ae_push
+		WHERE a_hogi = '용체화로 3호기'
+		AND push_chk = 'N'
+	</select>	
+	
+	<update id="setYong3PushUpdate" parameterType="int">
+		UPDATE tb_ae_push SET push_chk = 'Y'
+		WHERE idx = #{value}
+	</update>
+	
+	
+	
+	<!-- 용체화로 4호기 -->
+	<select id="getYong4TokenList" resultType="string">
+		SELECT token_id
+		FROM tb_user
+		WHERE (token_id IS NOT NULL)
+		AND (yn = 'Y' AND yong4_yn = 'Y')
+		AND (push_yn = 'Y')
+	</select>
+	
+	<select id="getYong4AlarmList" resultType="alarms">
+		SELECT *
+		FROM tb_ae_push
+		WHERE a_hogi = '용체화로 4호기'
+		AND push_chk = 'N'
+	</select>	
+	
+	<update id="setYong4PushUpdate" parameterType="int">
+		UPDATE tb_ae_push SET push_chk = 'Y'
+		WHERE idx = #{value}
+	</update>
+	
+	
+</mapper>

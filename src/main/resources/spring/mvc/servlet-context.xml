@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+
+	
+	<mvc:annotation-driven/>
+	<mvc:resources  mapping="/css/**" location="/WEB-INF/resources/css/"/>
+	<mvc:resources  mapping="/js/**" location="/WEB-INF/resources/js/"/>
+	<mvc:resources  mapping="/fonts/**" location="/WEB-INF/resources/fonts/"/>
+	<mvc:resources  mapping="/image/**" location="/WEB-INF/resources/image/"/>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+			p:prefix="/WEB-INF/views"/>
+			
+			<!--
+	<bean id="loginInterceptor" class="com.iqr.interceptor.LoginInterceptor"/>
+	<bean id="xssInterceptor" class="com.iqr.interceptor.XssInterceptor"/>			
+	<bean id="authInterceptor" class="com.kum.interceptor.AuthInterceptor"/>
+	
+	 -->
+	<context:component-scan base-package="com.iqr.controller"/>
+	<!-- interceptor 등록 
+	 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/userManage"/>
+			<mvc:mapping path="/user/userRegister"/>
+			<mvc:mapping path="/user/userModify"/>
+			<mvc:mapping path="/user/userDelete"/>
+			<mvc:mapping path="/user/userActivate"/>
+			<mvc:mapping path="/user/selectUserSelectOne"/>
+			<mvc:mapping path="/user/getUserListSelectUname"/>
+			<mvc:mapping path="/user/selectUserDetailList"/>
+						
+			<mvc:mapping path="/alarm/alarmManage"/>
+			<mvc:mapping path="/alarm/getAlarmDetailList"/>
+			<mvc:mapping path="/alarm/alarmRanking"/>
+			<mvc:mapping path="/alarm/getAlarmRankingMonth"/>
+			<mvc:mapping path="/alarm/getAlarmRankingYear"/>			
+			<mvc:mapping path="/trend/trendSearchTime"/>
+			<ref bean="loginInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<ref bean="xssInterceptor"/>
+		</mvc:interceptor>		
+	</mvc:interceptors>
+-->	  
+	  
+	<!-- 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/mypage/**"/>
+			<mvc:mapping path="/cart/**"/>
+			<mvc:mapping path="/books/add"/>
+			<mvc:mapping path="/books/mod"/>
+			<mvc:mapping path="/board/insert"/>
+			<mvc:mapping path="/board/update"/>
+			<mvc:mapping path="/board/delete"/>
+			<ref bean="loginInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<ref bean="authInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<ref bean="xssInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	 -->
+	<bean name="multipartResolver"
+	 class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+			p:defaultEncoding="UTF-8" p:maxUploadSize="31457280"/>
+</beans>

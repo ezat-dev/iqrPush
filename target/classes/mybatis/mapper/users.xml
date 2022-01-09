@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+	<select id="getUserTokenList" parameterType="string" resultType="string">
+		SELECT *
+		FROM iqr.tb_user
+		WHERE yn = 'Y'
+		AND u_company = #{value}	
+	</select>
+
+	<select id="getUserList" resultType="users">
+		SELECT *
+		FROM tb_user
+	</select>
+
+</mapper>
