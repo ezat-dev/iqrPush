@@ -4,15 +4,40 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
 	<select id="getUserTokenList" parameterType="string" resultType="string">
-		SELECT *
+		SELECT token_id
 		FROM iqr.tb_user
 		WHERE yn = 'Y'
-		AND u_company = #{value}	
+		AND u_company = #{value}
+		AND token_id IS NOT NULL AND token_yn = 'Y'
 	</select>
 
 	<select id="getUserList" resultType="users">
 		SELECT *
 		FROM tb_user
+		WHERE yn = 'Y'
+		AND token_id IS NOT NULL AND token_yn = 'Y'		
+		
+	</select>
+
+	<select id="getPushSendAlarmDetailList" resultType="users">
+ 
+		SELECT qr_code, CONCAT(corr_edate,'_',corr_title) AS alarm_name, NOW() AS alarm_time, u_company
+		FROM (
+			SELECT *, 
+				DATEDIFF(corr_edate,CURDATE()) AS diff_cnt,
+				SUBSTRING_INDEX(qr_code,'-',1) AS u_company
+			FROM (
+				SELECT qr_code, corr_edate, corr_title
+				FROM tb_qr_corr
+				WHERE yn = 'Y' AND push_chk = 'N' AND (corr_edate IS NOT NULL AND corr_edate != '')
+			) AS aaa
+		) AS bbb
+		WHERE diff_cnt >= 0 AND diff_cnt <![CDATA[<]]> 15
+	
+<!-- 
+		SELECT *
+		FROM tb_qr_corr
+ -->		
 	</select>
 
 </mapper>

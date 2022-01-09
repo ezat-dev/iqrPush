@@ -13,6 +13,14 @@ public class Users {
 	private String token_yn;
 	
 	
+	private int idx;
+	private String qr_code;
+	private String alarm_name;
+	private String alarm_time;
+	private String reset_time;
+	
+	
+	
 	public String getAndroid_uk() {
 		return android_uk;
 	}
@@ -66,6 +74,36 @@ public class Users {
 	}
 	public void setToken_yn(String token_yn) {
 		this.token_yn = token_yn;
+	}
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+	public String getQr_code() {
+		return qr_code;
+	}
+	public void setQr_code(String qr_code) {
+		this.qr_code = qr_code;
+	}
+	public String getAlarm_name() {
+		return alarm_name;
+	}
+	public void setAlarm_name(String alarm_name) {
+		this.alarm_name = alarm_name;
+	}
+	public String getAlarm_time() {
+		return alarm_time;
+	}
+	public void setAlarm_time(String alarm_time) {
+		this.alarm_time = alarm_time;
+	}
+	public String getReset_time() {
+		return reset_time;
+	}
+	public void setReset_time(String reset_time) {
+		this.reset_time = reset_time;
 	}
 	
 	

@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.iqr.domain.Alarms;
+import com.iqr.domain.Pushs;
 
 public interface AlarmDao {
-
-	List<Alarms> getPushSendAlarmList();
+	
+	List<Alarms> getPushSendALarmList();
 
 	void pushAlarmRegist(Map<String, Object> param);
 

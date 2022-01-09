@@ -16,7 +16,7 @@ public class FcmUtil {
 	public void corr_FCM(List<String> tokenList, String title, String content, String send){
 		try{
 
-			FileInputStream refreshToken = new FileInputStream("D:/fcm_key/gumgusmart-firebase-adminsdk-w0icg-9ebe951d6d.json");
+			FileInputStream refreshToken = new FileInputStream("D:/fcm_key/ez-iqr-firebase-adminsdk-yr8ui-6434316967.json");
 
 			
 			

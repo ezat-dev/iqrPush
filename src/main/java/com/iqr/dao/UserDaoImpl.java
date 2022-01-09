@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.iqr.domain.Pushs;
 import com.iqr.domain.Users;
 
 @Repository
@@ -22,6 +23,12 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<Users> getUserList() {
 		return sqlSession.selectList("users.getUserList");
+	}
+
+	@Override
+	public List<Users> getPushSendAlarmDetailList() {
+		return sqlSession.selectList("users.getPushSendAlarmDetailList");
+											
 	}
 	
 	
