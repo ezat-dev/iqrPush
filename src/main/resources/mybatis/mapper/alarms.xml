@@ -21,7 +21,7 @@
 	</select>
 	
 	<insert id="pushAlarmRegist" parameterType="map">
-		{CALL sp_push_alarm_set(#{qr_code},#{alarm_name}, #{alarm_time})}
+		{CALL sp_push_alarm_set(#{qr_code},#{alarm_name}, #{alarm_time}, #{alarm_sdate})}
 	</insert>
 	
 </mapper>

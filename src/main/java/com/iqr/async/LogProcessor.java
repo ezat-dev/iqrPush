@@ -67,6 +67,7 @@ public class LogProcessor {
 						param.put("qr_code", alarmList.get(i).getQr_code());
 						param.put("alarm_name",alarmList.get(i).getAlarm_name());
 						param.put("alarm_time",alarmList.get(i).getAlarm_time());
+						param.put("alarm_sdate", alarmList.get(i).getAlarm_sdate());
 						alarmService.pushAlarmRegist(param);
 						
 						//아래 메소드는 사용자 테이블에 token_id 업데이트 한 다음 테스트

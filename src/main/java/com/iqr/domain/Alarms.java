@@ -8,6 +8,7 @@ public class Alarms {
 	private String alarm_name;
 	private String alarm_time;
 	private String reset_time;
+	private String alarm_sdate;
 	private String yn;
 	
 	
@@ -41,6 +42,12 @@ public class Alarms {
 	}
 	public void setAlarm_time(String alarm_time) {
 		this.alarm_time = alarm_time;
+	}
+	public String getAlarm_sdate() {
+		return alarm_sdate;
+	}
+	public void setAlarm_sdate(String alarm_sdate) {
+		this.alarm_sdate = alarm_sdate;
 	}
 	public String getReset_time() {
 		return reset_time;

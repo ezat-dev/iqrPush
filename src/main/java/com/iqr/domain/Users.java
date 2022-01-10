@@ -18,6 +18,7 @@ public class Users {
 	private String alarm_name;
 	private String alarm_time;
 	private String reset_time;
+	private String alarm_sdate;
 	
 	
 	
@@ -104,6 +105,12 @@ public class Users {
 	}
 	public void setReset_time(String reset_time) {
 		this.reset_time = reset_time;
+	}
+	public String getAlarm_sdate() {
+		return alarm_sdate;
+	}
+	public void setAlarm_sdate(String alarm_sdate) {
+		this.alarm_sdate = alarm_sdate;
 	}
 	
 	
