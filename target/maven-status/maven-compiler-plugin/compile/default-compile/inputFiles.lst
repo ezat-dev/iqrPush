@@ -1,3 +1,4 @@
+D:\spring_work_smart\iqrPush\src\main\java\com\iqr\domain\Pushs.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\intercepter\XssInterceptor.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\util\XssRequestWrapper.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\async\TaskConfig.java
@@ -10,7 +11,6 @@ D:\spring_work_smart\iqrPush\src\main\java\com\iqr\dao\UserDao.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\dao\AlarmDaoImpl.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\domain\Users.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\service\AlarmService.java
-D:\spring_work_smart\iqrPush\src\main\java\com\iqr\controller\AlarmController.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\dao\AlarmDao.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\service\AlarmServiceImpl.java
 D:\spring_work_smart\iqrPush\src\main\java\com\iqr\service\UserServiceImpl.java

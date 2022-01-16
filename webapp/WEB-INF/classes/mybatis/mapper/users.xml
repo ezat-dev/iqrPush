@@ -3,120 +3,42 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
-	
-	<select id="userCheck" parameterType="users" resultType="int">
-		SELECT COUNT(*) AS ccnt
-		FROM tb_user
-		WHERE u_id = #{u_id} AND u_pw = #{u_pw} AND yn = 'Y'
-	</select>	
-	
-	<select id="getLoginUser" parameterType="map" resultType="users">
-		SELECT *
-		FROM tb_user
-		WHERE u_id = #{u_id} AND u_pw = #{u_pw} AND yn = 'Y'
+	<select id="getUserTokenList" parameterType="string" resultType="string">
+		SELECT token_id
+		FROM iqr.tb_user
+		WHERE yn = 'Y'
+		AND u_company = #{value}
+		AND token_id IS NOT NULL AND token_yn = 'Y'
 	</select>
-	
-	<select id="selectUserDetailList" resultType="users" parameterType="users">
+
+	<select id="getUserList" resultType="users">
 		SELECT *
 		FROM tb_user
 		WHERE yn = 'Y'
-		<if test="u_name != '' and u_name != null">
-			AND u_name = #{u_name}
-		</if>
-	</select>
-	
-	<update id="tokenUpdate" parameterType="users">
-		UPDATE tb_user SET token_id = #{token_id}, app_login_chk = 'Y',  
-						   auto_login_yn = #{auto_login_yn},
-						   uk_id = #{uk_id}
-		WHERE u_id = #{u_id} AND u_pw = #{u_pw} AND yn = 'Y'
-	</update>
-	
-	
-	<select id="getUserIdCheckCount" parameterType="string" resultType="int">
-		SELECT COUNT(*) AS ccnt
-		FROM tb_user
-		WHERE u_id = #{value} AND yn = 'Y'
+		AND token_id IS NOT NULL AND token_yn = 'Y'		
 		
 	</select>
+
+	<select id="getPushSendAlarmDetailList" resultType="users">
+ 
+		SELECT qr_code, CONCAT(corr_edate,'_',corr_title) AS alarm_name, NOW() AS alarm_time, u_company,
+			   corr_sdate AS alarm_sdate
+		FROM (
+			SELECT *, 
+				DATEDIFF(corr_edate,CURDATE()) AS diff_cnt,
+				SUBSTRING_INDEX(qr_code,'-',1) AS u_company
+			FROM (
+				SELECT qr_code, corr_edate, corr_title, corr_sdate
+				FROM tb_qr_corr
+				WHERE yn = 'Y' AND push_chk = 'N' AND (corr_edate IS NOT NULL AND corr_edate != '')
+			) AS aaa
+		) AS bbb
+		WHERE diff_cnt >= 0 AND diff_cnt <![CDATA[<]]> 15
 	
-	<!-- 삭제된 아이디만 활성화에서 사용 -->
-	<select id="getUserDeleteCount" parameterType="string" resultType="int">
-		SELECT COUNT(*) AS ccnt
-		FROM tb_user
-		WHERE u_id = #{value} AND yn = 'N'
-		
-	</select>
-	
-	<insert id="insertUserRegister" parameterType="users">
-		{CALL sp_user_set(
-			#{u_id}, #{u_pw}, #{u_name}, #{aging2_yn}, #{aging3_yn}, #{aging4_yn},
-			#{yong1_yn}, #{yong2_yn}, #{yong3_yn}, #{yong4_yn}, #{query_gb}
-		)}
-	</insert>
-	
-	<insert id="updateUserModify" parameterType="users">
-		{CALL sp_user_set(
-			#{u_id}, #{u_pw}, #{u_name}, #{aging2_yn}, #{aging3_yn}, #{aging4_yn},
-			#{yong1_yn}, #{yong2_yn}, #{yong3_yn}, #{yong4_yn}, #{query_gb}
-		)}
-	</insert>
-	
-	<update id="userDelete" parameterType="string">
-		UPDATE tb_user SET yn='N'
-		WHERE u_id = #{value}
-	</update>
-	
-	<update id="userActivation" parameterType="users">
-		{CALL sp_user_set(
-			#{u_id}, #{u_pw}, #{u_name}, #{aging2_yn}, #{aging3_yn}, #{aging4_yn},
-			#{yong1_yn}, #{yong2_yn}, #{yong3_yn}, #{yong4_yn}, #{query_gb}
-		)}
-	
-	</update>
-	
-	<select id="selectUserSelectOne" parameterType="string" resultType="users">
+<!-- 
 		SELECT *
-		FROM tb_user
-		WHERE u_id = #{value} AND yn = 'Y'	
+		FROM tb_qr_corr
+ -->		
 	</select>
-	
-	<select id="getUserListSelectUname" parameterType="map" resultType="string">
-		SELECT DISTINCT u_name
-		FROM tb_user
-		WHERE yn = 'Y'
-	</select>
-	
-	
-	<!-- 앱에서 중복로그인 체크 -->	
-	<select id="userDuplicateCheck" parameterType="users" resultType="users">
-		SELECT *
-		FROM tb_user
-		WHERE u_id = #{u_id} AND u_pw = #{u_pw} AND yn = 'Y'
-	</select>	
-	
-	<update id="userLogout" parameterType="users">
-		UPDATE tb_user SET app_login_chk = 'N'
-		WHERE u_id = #{u_id} AND u_pw = #{u_pw}
-	</update>
-	
-	<select id="userUkidCheck" parameterType="users" resultType="int">
-		SELECT COUNT(*) AS ccnt
-		FROM tb_user
-		WHERE u_id = #{u_id} AND u_pw = #{u_pw} AND yn = 'Y'
-		AND uk_id = #{uk_id}
-	</select>
-	
-	
-	<update id="userLoginClear" parameterType="users">
-		UPDATE tb_user SET app_login_chk = 'N', auto_login_yn = 'N'
-		WHERE u_id = #{u_id} AND u_pw = #{u_pw} AND yn = 'Y'
-	</update>
-	
-	<update id="userPushUpdate" parameterType="users">
-		UPDATE tb_user SET push_yn = #{push_yn}
-		WHERE u_id = #{u_id} AND u_pw = #{u_pw} AND yn = 'Y'
-	</update>
-	
-	
+
 </mapper>
