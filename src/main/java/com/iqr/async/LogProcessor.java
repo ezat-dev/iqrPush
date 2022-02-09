@@ -23,6 +23,7 @@ public class LogProcessor {
 	//주기별 실행 60000 = 1분 / 10분 변경 fixedRate = 600000
 	//월-금 오전 9시
 	@Scheduled(cron="0 0 9 ? * MON-FRI")
+//	@Scheduled(fixedRate = 60000)
 	public void handle() throws InterruptedException {
 //		System.out.println("11");
 		FcmUtil fcmUtil = new FcmUtil();
@@ -56,6 +57,15 @@ public class LogProcessor {
 				System.out.println("알람시간 : "+alarmList.get(i).getAlarm_time());
 				System.out.println("알람거래처 : "+alarmList.get(i).getU_company());
 */
+
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("qr_code", alarmList.get(i).getQr_code());
+				param.put("alarm_name",alarmList.get(i).getAlarm_name());
+				param.put("alarm_time",alarmList.get(i).getAlarm_time());
+				param.put("alarm_sdate", alarmList.get(i).getAlarm_sdate());
+				
+				alarmService.pushAlarmRegist(param);
+
 				
 				for(int j=0; j<userList.size(); j++) {
 					//발생한 알람을 받을 사람이 있는지 체크
@@ -64,16 +74,6 @@ public class LogProcessor {
 					if(tokenList.size() != 0) {
 						//아래 메소드는 사용자 테이블에 token_id 업데이트 한 다음 테스트
 
-						if(j == 0) {
-							Map<String, Object> param = new HashMap<String, Object>();
-							param.put("qr_code", alarmList.get(i).getQr_code());
-							param.put("alarm_name",alarmList.get(i).getAlarm_name());
-							param.put("alarm_time",alarmList.get(i).getAlarm_time());
-							param.put("alarm_sdate", alarmList.get(i).getAlarm_sdate());
-							
-							alarmService.pushAlarmRegist(param);
-							
-						}
 						
 						fcmUtil.corr_FCM(tokenList, 
 								alarmList.get(i).getAlarm_time(),

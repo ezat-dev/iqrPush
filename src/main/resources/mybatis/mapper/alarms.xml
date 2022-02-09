@@ -5,7 +5,7 @@
 <mapper namespace="alarms">
 	<!-- 푸시알람을 보내야 하는 알람의 목록 -->
 	<select id="getPushSendAlarmList" resultType="alarms">
-		SELECT qr_code, CONCAT(corr_edate,'_',corr_title) AS alarm_name, NOW() AS alarm_time
+		SELECT qr_code, CONCAT(corr_edate,'_',corr_title) AS alarm_name, LEFT(NOW(),19) AS alarm_time
 		FROM (
 			SELECT *, 
 				DATEDIFF(corr_edate,CURDATE()) AS diff_cnt,

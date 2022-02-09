@@ -21,18 +21,26 @@
 
 	<select id="getPushSendAlarmDetailList" resultType="users">
  
-		SELECT qr_code, CONCAT(corr_edate,'_',corr_title) AS alarm_name, NOW() AS alarm_time, u_company,
+		SELECT qr_code, CONCAT(corr_edate,'_',corr_title) AS alarm_name, LEFT(NOW(),19) AS alarm_time, u_company,
 			   corr_sdate AS alarm_sdate
 		FROM (
-			SELECT *, 
-				DATEDIFF(corr_edate,CURDATE()) AS diff_cnt,
-				SUBSTRING_INDEX(qr_code,'-',1) AS u_company
-			FROM (
+			SELECT qr_info.qr_code, qr_info.u_company,
+					 qr_corr.corr_edate, qr_corr.corr_title, qr_corr.corr_sdate, 
+				DATEDIFF(corr_edate,CURDATE()) AS diff_cnt
+			FROM 
+			(
+				SELECT qr_code, qr_company AS u_company
+				FROM tb_qr_info
+				WHERE yn ='Y'
+			) AS qr_info
+			LEFT OUTER JOIN
+			(
 				SELECT qr_code, corr_edate, corr_title, corr_sdate
 				FROM tb_qr_corr
 				WHERE yn = 'Y' AND push_chk = 'N' AND (corr_edate IS NOT NULL AND corr_edate != '')
-			) AS aaa
-		) AS bbb
+			) AS qr_corr
+			ON qr_info.qr_code = qr_corr.qr_code
+		) AS aaa
 		WHERE diff_cnt >= 0 AND diff_cnt <![CDATA[<]]> 15
 	
 <!-- 
