@@ -17,7 +17,7 @@ public class FcmUtil {
 		try{
 
 			FileInputStream refreshToken = new FileInputStream("D:/fcm_key/ez-iqr-firebase-adminsdk-yr8ui-6434316967.json");
-
+			
 			
 			
 			FirebaseOptions options = new FirebaseOptions.Builder()
@@ -56,7 +56,8 @@ public class FcmUtil {
 			
 			
 			BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
-			
+			System.out.println("Success : "+response.getSuccessCount());
+			System.out.println("Failer : "+response.getFailureCount());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
