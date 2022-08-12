@@ -22,8 +22,8 @@ public class LogProcessor {
 	
 	//주기별 실행 60000 = 1분 / 10분 변경 fixedRate = 600000
 	//월-금 오전 9시
-//	@Scheduled(cron="0 0 9 ? * MON-FRI")
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(cron="0 0 9 ? * MON-FRI")
+//	@Scheduled(fixedRate = 60000)
 	public void handle() throws InterruptedException {
 		FcmUtil fcmUtil = new FcmUtil();
 
@@ -55,8 +55,8 @@ public class LogProcessor {
 					
 					if(tokenList.size() != 0) {
 						//아래 메소드는 사용자 테이블에 token_id 업데이트 한 다음 테스트
-						System.out.println("j : ["+j+"]"+tokenList.get(j));
-						System.out.println(alarmList.get(i).getQr_code()+"/"+alarmList.get(i).getAlarm_name()+"/"+alarmList.get(i).getAlarm_sdate());
+//						System.out.println("j : ["+j+"]"+tokenList.get(j));
+//						System.out.println(alarmList.get(i).getQr_code()+"/"+alarmList.get(i).getAlarm_name()+"/"+alarmList.get(i).getAlarm_sdate());
 						fcmUtil.corr_FCM(tokenList, 
 								alarmList.get(i).getAlarm_time(),
 								alarmList.get(i).getAlarm_name(),
